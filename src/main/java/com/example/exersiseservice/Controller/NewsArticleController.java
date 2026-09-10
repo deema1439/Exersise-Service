@@ -22,7 +22,7 @@ public class NewsArticleController {
 
     @GetMapping("/get")
     public ResponseEntity<?>getNews(){
-        ArrayList<NewsArticle>getNews=newsservice.getNewsArticles();
+        ArrayList<NewsArticle>getNews=newsservice.getNews();
         return ResponseEntity.status(200).body(getNews);
     }
 
@@ -59,12 +59,16 @@ public class NewsArticleController {
 
     @PutMapping("/updateispuplish/{id}")
     public ResponseEntity<?>updateSet(@PathVariable String id){
-        NewsArticle update=newsservice.Publish(id);
-        if(update==null){
+        int update=newsservice.Publish(id);
+        if(update==2){
             return ResponseEntity.status(400).body(new ApiRes("id not found"));
         }
-        return ResponseEntity.status(200).body(update);
+        if(update==1){
+         return ResponseEntity.status(400).body(new ApiRes("news already published") );
+        }
+        return ResponseEntity.status(200).body(newsservice.getid(id));
     }
+
     @GetMapping("/getpuplish")
     public ResponseEntity<?>GetPuplished(){
         ArrayList<NewsArticle>getPublish=newsservice.GetPublish();

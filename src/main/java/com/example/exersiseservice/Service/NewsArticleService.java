@@ -8,17 +8,17 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-@Data
-@AllArgsConstructor
 public class NewsArticleService {
 
     ArrayList<NewsArticle>newsArticles=new ArrayList<>();
 
     public ArrayList<NewsArticle>getNews(){
+
         return newsArticles;
     }
 
     public void addNews(NewsArticle news){
+        news.setPuplished(false);
         newsArticles.add(news);
     }
 
@@ -45,16 +45,18 @@ public class NewsArticleService {
     }
 
 
-    public NewsArticle Publish(String id){
+    public int Publish(String id){
        for(NewsArticle n:newsArticles){
            if(n.getId().equals(id)){
+               if(n.isPuplished()){
+                   return 1;
+               }
                n.setPuplished(true);
-               return n;
+               return 0;
            }
        }
-       return null;
+       return 2;
     }
-
 
     public ArrayList<NewsArticle>GetPublish(){
         ArrayList<NewsArticle>result=new ArrayList<>();
@@ -66,10 +68,19 @@ public class NewsArticleService {
         return result;
     }
 
+    public NewsArticle getid(String id){
+        for(NewsArticle n:newsArticles){
+            if(n.getId().equals(id)){
+                return n;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<NewsArticle>GetNewsByAr(String category){
         ArrayList<NewsArticle>result=new ArrayList<>();
         for(NewsArticle c:newsArticles){
-            if(c.getCategory().equals(category)){
+            if(c.getCategory().equalsIgnoreCase(category)){
                 result.add(c);
             }
         }

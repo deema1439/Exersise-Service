@@ -41,7 +41,6 @@ public class NewsArticle {
     @NotEmpty(message = "imgUrl Can not be Empty")
     private String imgUrl;
 
-    @AssertFalse(message = "set False as a default")
     private boolean isPuplished;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
